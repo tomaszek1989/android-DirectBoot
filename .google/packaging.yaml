@@ -13,5 +13,5 @@ github:       android-DirectBoot
 level:        INTERMEDIATE
 icon:         screenshots/icon-web.png
 apiRefs:
-    - android:android.content.Context.createDeviceEncryptedStorageContext
+    - android:android.content.Context.createDeviceProtectedStorageContext
 license: apache2

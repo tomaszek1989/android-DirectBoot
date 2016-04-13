@@ -2,47 +2,49 @@
 Android DirectBoot Sample
 ===================================
 
-Sample demonstrating how to store data in a device-encrypted storage which
+Sample demonstrating how to store data in a device protected storage which
 is always available while the device is booted both before and after any
 user credentials(PIN/Pattern/Password) are entered.
 
 Introduction
 ------------
 
-This sample demonstrates how to store and access data in a device encrypted
+This sample demonstrates how to store and access data in a device protected
 storage which is always available while the device is booted.
 Starting from Android N, the system provides two storage locations for user data:
 
-- Credential encrypted:
+- Credential protected:
     - The default storage location for all apps, available only after the user has entered their pattern/password
 
-- Device encrypted:
+- Device protected:
     - A new storage location which is always available while the device is booted, both before and after any user credentials are entered
 
-Apps can mark individual components as being encryption aware which indicates to the system that they can safely run when Credential encrypted storage is unavailable (an encryption aware component primarily relies on data stored in the new Device encrypted storage area, but they may access Credential encrypted data when unlocked) by adding `encryptionAware="true"` in the manifest.
+Apps can mark individual components as being direct boot aware which indicates to the system that they can safely run when
+Credential protected storage is unavailable (an direct boot aware component primarily relies on data stored in the new Device protected storage area,
+but they may access Credential protected data when unlocked) by adding `directBootAware="true"` in the manifest.
 ```
 <activity|provider|receiver|service ...
-android:encryptionAware=”true”>
+android:directBootAware=”true”>
 ```
 
-Components marked as encryption aware are normal components that will continue to be available after the
-Credential encrypted storage becomes available. The storage APIs on the Context supplied to these components will always point to Credential encrypted storage by default.
-To access Device encrypted storage, you can create a secondary Context using this API
+Components marked as directBoot aware are normal components that will continue to be available after the
+Credential protected storage becomes available. The storage APIs on the Context supplied to these components will always point to Credential protected storage by default.
+To access Device protected storage, you can create a secondary Context using this API
 ```
-Context.createDeviceEncryptedStorageContext()
+Context.createDeviceProtectedStorageContext()
 ```
-All of the storage APIs on this returned Context will be redirected to point at Device encrypted storage.
+All of the storage APIs on this returned Context will be redirected to point at Device protected storage.
 
-You need to be careful what data is stored/migrated to a device-encrypted storage
+You need to be careful what data is stored/moved to a device protected storage
 because the storage isn't protected by the user's credential (PIN/Pattern/Password)
 You shouldn't store sensitive data (such as user's emails, auth tokens) in a
-device-encrypted storage.
+device protected storage.
 
 Pre-requisites
 --------------
 
 - Android SDK Preview N
-- Android Build Tools v24.0.0 rc1
+- Android Build Tools v24.0.0 rc3
 - Android Support Repository
 
 Screenshots
