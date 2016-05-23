@@ -23,6 +23,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -43,7 +44,15 @@ public class AlarmIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Context context = getApplicationContext();
-        Alarm alarm = intent.getParcelableExtra(ALARM_KEY);
+        // TODO: For some reasons, parcelable serialization started to fail in IntentService
+        //       Retrieving primitives from the intent as a workaround
+        Alarm alarm = new Alarm();
+        Bundle bundle = intent.getExtras();
+        alarm.id = bundle.getInt("id");
+        alarm.minute = bundle.getInt("minute");
+        alarm.hour = bundle.getInt("hour");
+        alarm.date = bundle.getInt("date");
+        alarm.month = bundle.getInt("month");
 
         NotificationManager notificationManager = context
                 .getSystemService(NotificationManager.class);

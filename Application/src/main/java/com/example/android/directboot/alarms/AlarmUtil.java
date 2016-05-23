@@ -45,7 +45,13 @@ public class AlarmUtil {
      */
     public void scheduleAlarm(Alarm alarm) {
         Intent intent = new Intent(mContext, AlarmIntentService.class);
-        intent.putExtra(AlarmIntentService.ALARM_KEY, alarm);
+        // TODO: For some reasons, a parcelable serialization started to fail in IntentService
+        //       As a workaround, putting primitives in the intent
+        intent.putExtra("id", alarm.id);
+        intent.putExtra("minute", alarm.minute);
+        intent.putExtra("hour", alarm.hour);
+        intent.putExtra("date", alarm.date);
+        intent.putExtra("month", alarm.month);
         PendingIntent pendingIntent = PendingIntent
                 .getService(mContext, alarm.id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar alarmTime = Calendar.getInstance();
@@ -61,7 +67,7 @@ public class AlarmUtil {
         Log.i(TAG,
                 String.format("Alarm scheduled at (%2d:%02d) Date: %d, Month: %d",
                         alarm.hour, alarm.minute,
-                        alarm.month, alarm.date));
+                        alarm.date, alarm.month));
     }
 
     /**
